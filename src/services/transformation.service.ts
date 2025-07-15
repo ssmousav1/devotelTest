@@ -42,6 +42,8 @@ export class TransformationService {
     };
   }
 
+  // for adding another api provider add the transformation here as another'transformAPIJob()'
+
   private parseSalaryRange(salaryRange: string): {
     min: number | null;
     max: number | null;

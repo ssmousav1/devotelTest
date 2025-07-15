@@ -56,10 +56,13 @@ export class ApiClientService {
     }
   }
 
+  // for adding anotherAPI provider add tha api call here as another 'etchFromProvider()' and add the functions call to 'fetchAllJobs()'
+
   async fetchAllJobs(): Promise<{
     provider1: API1Response | null;
     provider2: API2Response | null;
   }> {
+    // you can add another 'etchFromProvider()' here
     const [provider1Data, provider2Data] = await Promise.allSettled([
       this.fetchFromProvider1(),
       this.fetchFromProvider2(),

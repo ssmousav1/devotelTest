@@ -33,6 +33,7 @@ A backend application built with NestJS that integrates with multiple job offer 
 - **RESTful API**: Provides endpoints to retrieve job offers with filtering and pagination
 - **Error Handling**: Robust error handling with logging and graceful failure recovery
 - **Testing**: Comprehensive unit and integration tests
+- **scalablity** New API providers can simply be added via adding them to `transformation.services.ts` and `api-client.service.ts`
 
 ## Prerequisites
 

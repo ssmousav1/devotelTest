@@ -18,7 +18,7 @@ export class JobOffersService {
 
   async syncJobsFromProviders(): Promise<void> {
     this.logger.log('Starting job synchronization');
-
+    // you can add new API providers by adding the to'apiClientService'
     const { provider1, provider2 } = await this.apiClientService.fetchAllJobs();
 
     const transformedJobs: Partial<JobOffer>[] = [];
