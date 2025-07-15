@@ -290,7 +290,9 @@ describe('JobOffersController', () => {
 
     it('should handle service errors gracefully', async () => {
       const query: JobOfferQueryDto = { title: 'Test' };
-      jobOffersService.findAll.mockRejectedValue(new Error('Service unavailable'));
+      jobOffersService.findAll.mockRejectedValue(
+        new Error('Service unavailable'),
+      );
 
       let thrownError;
       try {
