@@ -58,7 +58,7 @@ NODE_ENV=development
 DATABASE_PATH=job-offers.sqlite
 API1_URL=https://assignment.devotel.io/api/provider1/jobs
 API2_URL=https://assignment.devotel.io/api/provider2/jobs
-CRON_SCHEDULE=0 */6 * * *
+CRON_SCHEDULE=0 */6 * * * *
 PORT=3000
 ```
 
