@@ -2,9 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -18,8 +15,6 @@
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Job Offers API
 
@@ -33,7 +28,7 @@ A backend application built with NestJS that integrates with multiple job offer 
 - **RESTful API**: Provides endpoints to retrieve job offers with filtering and pagination
 - **Error Handling**: Robust error handling with logging and graceful failure recovery
 - **Testing**: Comprehensive unit and integration tests
-- **scalablity** New API providers can simply be added via adding them to `transformation.services.ts` and `api-client.service.ts`
+- **Scalability**: New API providers can simply be added via adding them to `transformation.services.ts` and `api-client.service.ts`
 
 ## Prerequisites
 
@@ -43,17 +38,21 @@ A backend application built with NestJS that integrates with multiple job offer 
 ## Project Setup
 
 1. Clone the repository and navigate to the project directory:
+
 ```bash
 cd job-offers-api
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Configure environment variables (optional):
+
 Create a `.env` file in the root directory:
+
 ```env
 NODE_ENV=development
 DATABASE_PATH=job-offers.sqlite
@@ -82,7 +81,8 @@ $ npm run start:prod
 
 Retrieves job offers with optional filtering and pagination.
 
-#### Query Parameters:
+#### Query Parameters
+
 - `title` (optional): Filter by job title (case-insensitive partial match)
 - `location` (optional): Filter by location (case-insensitive partial match)
 - `salaryMin` (optional): Filter jobs with max salary >= this value
@@ -90,12 +90,14 @@ Retrieves job offers with optional filtering and pagination.
 - `page` (optional): Page number (default: 1)
 - `limit` (optional): Items per page (default: 10, max: 100)
 
-#### Example Request:
+#### Example Request
+
 ```bash
 GET /api/job-offers?title=engineer&location=new york&salaryMin=60000&page=1&limit=10
 ```
 
-#### Example Response:
+#### Example Response
+
 ```json
 {
   "success": true,
@@ -179,7 +181,7 @@ The application follows a modular architecture with clear separation of concerns
 - **DTOs**: Validate and transform request/response data
 - **Modules**: Organize related components
 
-### Key Components:
+### Key Components
 
 1. **ApiClientService**: Fetches data from external job APIs
 2. **TransformationService**: Transforms different API formats into unified structure
@@ -199,6 +201,7 @@ The application implements comprehensive error handling:
 ## Logging
 
 All major operations are logged including:
+
 - API fetch operations
 - Data transformation processes
 - Database operations
