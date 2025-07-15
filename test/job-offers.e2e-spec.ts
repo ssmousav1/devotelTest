@@ -357,5 +357,143 @@ describe('JobOffersController (e2e)', () => {
         .get('/api/job-offers?page=-1')
         .expect(400);
     });
+
+    it('should return 400 for invalid limit parameter', () => {
+      return request(app.getHttpServer())
+        .get('/api/job-offers?limit=0')
+        .expect(400);
+    });
+
+    it('should return 400 for limit exceeding maximum', () => {
+      return request(app.getHttpServer())
+        .get('/api/job-offers?limit=101')
+        .expect(400);
+    });
+
+    it('should return 400 for invalid salary parameters', () => {
+      return request(app.getHttpServer())
+        .get('/api/job-offers?salaryMin=-1000')
+        .expect(400);
+    });
+
+    it('should handle no results for specific filters', async () => {
+      await jobOfferRepository.save([
+        {
+          externalId: 'job1',
+          provider: 'test',
+          title: 'Developer',
+          companyName: 'Tech Co',
+          location: 'San Francisco',
+          salaryMin: 80000,
+          salaryMax: 120000,
+          postedDate: new Date(),
+        },
+      ]);
+
+      return request(app.getHttpServer())
+        .get('/api/job-offers?title=NonexistentJob')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.success).toBe(true);
+          expect(res.body.data).toEqual([]);
+          expect(res.body.pagination.total).toBe(0);
+        });
+    });
+
+    it('should handle complex location searches', async () => {
+      await jobOfferRepository.save([
+        {
+          externalId: 'job1',
+          provider: 'test',
+          title: 'Developer',
+          companyName: 'Tech Co',
+          location: 'San Francisco, California, USA',
+          postedDate: new Date(),
+        },
+        {
+          externalId: 'job2',
+          provider: 'test',
+          title: 'Developer',
+          companyName: 'Tech Co',
+          location: 'Los Angeles, California, USA',
+          postedDate: new Date(),
+        },
+        {
+          externalId: 'job3',
+          provider: 'test',
+          title: 'Developer',
+          companyName: 'Tech Co',
+          location: 'Austin, Texas, USA',
+          postedDate: new Date(),
+        },
+      ]);
+
+      return request(app.getHttpServer())
+        .get('/api/job-offers?location=California')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.data).toHaveLength(2);
+          expect(
+            res.body.data.every((job) => job.location.includes('California')),
+          ).toBe(true);
+        });
+    });
+
+    it('should handle special characters in search parameters', async () => {
+      await jobOfferRepository.save([
+        {
+          externalId: 'job1',
+          provider: 'test',
+          title: 'C++ Developer',
+          companyName: 'Tech Co',
+          location: 'Remote',
+          postedDate: new Date(),
+        },
+        {
+          externalId: 'job2',
+          provider: 'test',
+          title: 'C# Developer',
+          companyName: 'Microsoft',
+          location: 'Seattle',
+          postedDate: new Date(),
+        },
+      ]);
+
+      return request(app.getHttpServer())
+        .get('/api/job-offers?title=C%2B%2B') // URL encoded C++
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.data).toHaveLength(1);
+          expect(res.body.data[0].title).toBe('C++ Developer');
+        });
+    });
+
+    it('should maintain consistent response structure', async () => {
+      await jobOfferRepository.save([
+        {
+          externalId: 'job1',
+          provider: 'test',
+          title: 'Test Job',
+          companyName: 'Test Company',
+          location: 'Test Location',
+          postedDate: new Date(),
+        },
+      ]);
+
+      return request(app.getHttpServer())
+        .get('/api/job-offers')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('success');
+          expect(res.body).toHaveProperty('data');
+          expect(res.body).toHaveProperty('pagination');
+          expect(res.body.pagination).toHaveProperty('total');
+          expect(res.body.pagination).toHaveProperty('page');
+          expect(res.body.pagination).toHaveProperty('totalPages');
+          expect(res.body.pagination).toHaveProperty('limit');
+          expect(typeof res.body.success).toBe('boolean');
+          expect(Array.isArray(res.body.data)).toBe(true);
+        });
+    });
   });
 });
