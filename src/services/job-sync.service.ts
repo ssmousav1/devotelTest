@@ -21,7 +21,7 @@ export class JobSyncService implements OnModuleInit {
     // Set up dynamic cron job
     const cronExpression = this.configService.get<string>(
       'CRON_SCHEDULE',
-      '0 */6 * * *',
+      '0 */6 * * * * ',
     );
 
     const job = new CronJob(cronExpression, async (): Promise<void> => {
